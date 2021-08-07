@@ -1,0 +1,12 @@
+[user]
+	email = me.daniel.meier@gmail.com
+	name = Dan
+	signingkey = 3A683CC6ECF7AB69
+[push]
+	default = simple
+[commit]
+	gpgsign = true
+[gpg]
+	program = gpg
+[init]
+	defaultBranch = main
