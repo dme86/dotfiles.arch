@@ -32,6 +32,7 @@ exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 exec --no-startup-id nm-applet
 bindsym $mod+Shift+n exec ~/.config/i3blocks/nmcli-rofi/nmcli-rofi
 bindsym $mod+Shift+x exec ~/.config/i3blocks/shutdown_menu
+bindsym $mod+Shift+g exec ~/.config/i3blocks/lock
 
 # Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status
