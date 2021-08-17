@@ -55,7 +55,7 @@ beautiful.useless_gap = 3
 
 
 -- This is used later as the default terminal and editor to run.
-terminal = "urxvt"
+terminal = "kitty"
 editor = os.getenv("EDITOR") or "nvim"
 editor_cmd = terminal .. " -e " .. editor
 
@@ -117,19 +117,18 @@ mytextclock = wibox.widget.textclock()
 
 -- Create a wibox for each screen and add it
 -- needs pacman-contrib package!
-local pacupdates = awful.widget.watch('bash -c "checkupdates | wc -l"', 60, function(widget, stdout) 
+local pacupdates = awful.widget.watch('/home/dan/.config/i3blocks/pacupdates.sh', 60, function(widget, stdout) 
 	widget:set_text(stdout)
 end)
 
-local function checkupd()
-    awful.spawn.easy_async("checkupdates", function(stdout)
-        local n=0
-        for i in stdout:gmatch("\n") do
-            n=n+1
-        end
-            naughty.notify({ title=n.." updates available:", text="\n"..stdout })
-    end)
-end
+local battery = awful.widget.watch('/home/dan/.config/i3blocks/battery2', 5, function(widget, stdout) 
+	widget:set_text(stdout)
+end)
+
+local weather = awful.widget.watch('python3 /home/dan/.config/i3blocks/weather/weather.py', 600, function(widget, stdout) 
+	widget:set_text(stdout)
+end)
+
 
 local taglist_buttons = gears.table.join(
                     awful.button({ }, 1, function(t) t:view_only() end),
@@ -192,7 +191,7 @@ awful.screen.connect_for_each_screen(function(s)
     set_wallpaper(s)
 
     -- Each screen has its own tag table.
-    awful.tag({ "web", "term", "code", "slack" },
+    awful.tag({ "web", "code", "shell", "slack", "music", "irc" },
     s, awful.layout.layouts[1])
 
     -- Create a promptbox for each screen
@@ -236,7 +235,8 @@ awful.screen.connect_for_each_screen(function(s)
             layout = wibox.layout.fixed.horizontal,
 	    spacing = 5,
 	    pacupdates,
-	    checkupd(),
+            battery,
+            weather,
             mykeyboardlayout,
             wibox.widget.systray(),
             mytextclock,
@@ -338,8 +338,9 @@ globalkeys = gears.table.join(
               {description = "restore minimized", group = "client"}),
 
     -- Prompt ## changed to dmenu - therefore dmenu has to be installed!
-    awful.key({ modkey },            "r",     function () awful.util.spawn("dmenu_run") end,
-              {description = "run dmenu", group = "launcher"}),
+    awful.key({ modkey },            "r",     function () awful.util.spawn("/home/dan/.config/awesome/scripts/rofi.sh") end,
+	      {description = "run rofi", group = "launcher"}),
+
 
     awful.key({ modkey }, "x",
               function ()
@@ -472,6 +473,12 @@ root.keys(globalkeys)
 -- Rules to apply to new clients (through the "manage" signal).
 awful.rules.rules = {
     -- All clients will match this rule.
+
+
+
+
+
+
     { rule = { },
       properties = { border_width = beautiful.border_width,
                      border_color = beautiful.border_normal,
@@ -483,6 +490,9 @@ awful.rules.rules = {
                      placement = awful.placement.no_overlap+awful.placement.no_offscreen
      }
     },
+
+
+
 
     -- Floating clients.
     { rule_any = {
@@ -520,9 +530,15 @@ awful.rules.rules = {
       }, properties = { titlebars_enabled = false }
     },
 
-    -- Set Firefox to always map on the tag named "2" on screen 1.
-    -- { rule = { class = "Firefox" },
-    --   properties = { screen = 1, tag = "2" } },
+    -- DEFAULT APPLICATION LAUNCHER 
+
+    --     Set Firefox to always map on the tag named "web" on screen 1.
+     { rule = { class = "firefox" },
+       properties = { 
+	       screen = 1, 
+	       tag = "web",
+	       switch_to_tags = true
+       } },
 }
 -- }}}
 
