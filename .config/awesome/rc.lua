@@ -532,13 +532,49 @@ awful.rules.rules = {
 
     -- DEFAULT APPLICATION LAUNCHER 
 
-    --     Set Firefox to always map on the tag named "web" on screen 1.
-     { rule = { class = "firefox" },
+    -- Set Firefox to always map on the tag named "web" on screen 1.
+
+    { rule = { class = "firefox" },
        properties = { 
 	       screen = 1, 
 	       tag = "web",
 	       switch_to_tags = true
        } },
+
+
+    -- Set Slack to always map on the tag named "slack" on screen 1.
+     { rule = { class = "Slack" },
+       properties = { 
+	       screen = 1, 
+	       tag = "slack",
+	       switch_to_tags = true,
+	       maximized_vertical = true,
+	       maximized_horizontal = true
+       } },
+
+
+    -- Set Spotify to always map on the tag named "music" on screen 1.
+     { rule = { class = "Spotify" },
+       properties = { 
+	       screen = 1, 
+	       tag = "music",
+	       switch_to_tags = true,
+	       maximized_vertical = true,
+	       maximized_horizontal = true
+       } },
+
+
+    -- Set Hexchat to always map on the tag named "irc" on screen 1.
+     { rule = { class = "Hexchat" },
+       properties = { 
+	       screen = 1, 
+	       tag = "irc",
+	       switch_to_tags = true,
+               maximized_vertical = true,
+               maximized_horizontal = true
+       } },
+
+
 }
 -- }}}
 
