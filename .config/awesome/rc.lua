@@ -538,9 +538,22 @@ awful.rules.rules = {
        properties = { 
 	       screen = 1, 
 	       tag = "web",
-	       switch_to_tags = true
+	       switch_to_tags = true,
+               maximized_vertical = true,
+               maximized_horizontal = true
        } },
 
+
+    -- Set Code to always map on the tag named "code" on screen 1.
+
+    { rule = { class = "code-oss" },
+       properties = { 
+	       screen = 1, 
+	       tag = "code",
+	       switch_to_tags = true,
+               maximized_vertical = true,
+               maximized_horizontal = true
+       } },
 
     -- Set Slack to always map on the tag named "slack" on screen 1.
      { rule = { class = "Slack" },
